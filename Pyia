@@ -1,0 +1,73 @@
+import numpy as np
+from random import *
+
+
+class treinarRede():
+    def __init__(self):
+        self.pesos = []
+
+    def camadaEntrada(self, entradas, qntSaidas):
+        self.qntSaida = []
+        self.qntSaida.append(qntSaidas)
+        for j in range(0, qntSaidas):
+            self.pesos.append([])
+            for i in range(0, len(entradas)):
+                self.pesos[j].append(uniform(-1, 1))
+
+        multiplicacaoEntradaPesos = []
+        somatoria = []
+        sigmoid = []
+        for i in range(0, len(self.pesos)):
+            multiplicacaoEntradaPesos.append([])
+            for j in range(0, len(entradas)):
+                multiplicacaoEntradaPesos[i].append(entradas[j]*self.pesos[i][j])
+
+
+        #print(multiplicacaoEntradaPesos)
+
+        for i in range(0, len(multiplicacaoEntradaPesos)):
+            somatoria.append(np.sum(multiplicacaoEntradaPesos[i]))
+
+        for i in range(0, len(somatoria)):
+            sigmoid.append(1/(1+np.exp(-somatoria[i])))
+
+
+        return sigmoid
+
+    def camadaOculta(self, entradas, qntSaidas, ultimaCamada=False):
+        multiplicacaoEntradaPesos = []
+
+        for j in range(0, qntSaidas):
+            self.pesos.append([])
+            for i in range(0, len(entradas)):
+                self.pesos[j+np.sum(self.qntSaida)].append(uniform(-1, 1))
+
+        for i in range(0, len(self.pesos)-np.sum(self.qntSaida)):
+            multiplicacaoEntradaPesos.append([])
+            for j in range(0, len(entradas)):
+                multiplicacaoEntradaPesos[i].append(entradas[j]*self.pesos[i+np.sum(self.qntSaida)][j])
+
+        somatoria = []
+        for i in range(0, len(multiplicacaoEntradaPesos)):
+            somatoria.append(np.sum(multiplicacaoEntradaPesos[i]))
+
+        sigmoid = []
+        print(somatoria)
+        for i in range(0, len(somatoria)):
+            sigmoid.append(1/(1+np.exp(-somatoria[i])))
+
+        print(sigmoid)
+
+
+        self.qntSaida.append(qntSaidas)
+        return sigmoid
+
+
+
+
+
+a = treinarRede()
+sigmoid = a.camadaEntrada([1,2,3], 3)
+sigmoid1 = a.camadaOculta([1,2,3], 2)
+a.camadaOculta(sigmoid1, 4)
+
