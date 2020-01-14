@@ -2,6 +2,10 @@ import numpy as np
 from random import *
 
 
+
+
+
+
 class treinarRede():
     def __init__(self):
         self.pesos = []
@@ -52,16 +56,19 @@ class treinarRede():
             somatoria.append(np.sum(multiplicacaoEntradaPesos[i]))
 
         sigmoid = []
-        print(somatoria)
+        print(f"{self.pesos}\n\n")
         for i in range(0, len(somatoria)):
             sigmoid.append(1/(1+np.exp(-somatoria[i])))
 
-        print(sigmoid)
-
-
         self.qntSaida.append(qntSaidas)
-        return sigmoid
 
+        if ultimaCamada:
+            if sigmoid[0] > 0.5:
+                resposta = 1
+            else:
+                resposta = 0
+
+        return sigmoid
 
 
 
@@ -69,5 +76,5 @@ class treinarRede():
 a = treinarRede()
 sigmoid = a.camadaEntrada([1,2,3], 3)
 sigmoid1 = a.camadaOculta([1,2,3], 2)
-a.camadaOculta(sigmoid1, 4)
-
+sigmoid2 = a.camadaOculta(sigmoid1, 4)
+a.camadaOculta(sigmoid2, 1, ultimaCamada=True)
