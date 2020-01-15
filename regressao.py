@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+'''Classe para regressao linear com apenas uma variavel de Classificação'''
 class RegressaoLinear():
     def __init__(self, classificador, previsao):
         '''inicializa todas as variaveis necessarias ao instanciar a classe'''
@@ -43,7 +45,8 @@ class RegressaoLinear():
         return mse
 
     def DescidaGradienteStep(self, alpha=0.01, epocas = 5000):
-        '''Atualiza os valores de w0 e w1 afim de minimizar o MSE'''
+        '''Atualiza os valores de w0 e w1 afim de minimizar o MSE / taxa de aprendizagem e epocas ja vem com valores pré definidos
+         de 0,01 e 5000 para alterar basta passar como parametro do método'''
         '''------------------------------------------------------'''
 
         '''Cria uma lista com a quantidade de iterações do algoritmo para plotar o gráfico de custo'''
@@ -73,6 +76,10 @@ class RegressaoLinear():
                 self.w0 = self.w0 - alpha * (1/m) * erro_w0
                 self.w1 = self.w1 - alpha * (1/m) * erro_w1
 
+    def Prever(self, x):
+        print(self.w0 + self.w1*x)
+        return self.w0 + self.w1*x
+
     def VisualizarGraficoErro(self):
         try:
             plt.plot(self.eixoX, self.custo)
@@ -82,13 +89,19 @@ class RegressaoLinear():
 
 
 
+cl
+
 x = [15,16,17,18,19,20]
-y = [2, 3,4, 5, 6,7]
+y = [2, 3, 4, 5, 6, 7]
+
 reg = RegressaoLinear(x, y)
-reg.VisualizarHipotese(x, "Antes da descida")
-reg.DescidaGradienteStep()
-reg.VisualizarGraficoErro()
-reg.VisualizarHipotese(x, "depois da descida")
+reg.DescidaGradienteStep(epocas=5000)
+reg.Prever(25)
+
+
+
+
+
 
 
 
