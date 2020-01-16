@@ -89,8 +89,7 @@ class RegressaoLinear():
 
 
 
-cl
-
+'''Formato no qual o dados devem ser passado'''
 x = [15,16,17,18,19,20]
 y = [2, 3, 4, 5, 6, 7]
 
