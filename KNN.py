@@ -77,14 +77,14 @@ class KNN():
         plt.show()
 
 '''Formato no qual o dados devem ser passado'''
-x = [[1, 2], [2, 1], [1, 1], [2, 2], [4, 4], [5, 4], [3, 5], [5, 6]]
+x = [[1, 2, 4], [2, 1, 4], [1, 1, 4], [2, 2, 4], [4, 4, 4], [5, 4, 4], [3, 5, 4], [5, 6, 4]]
 y = [0,0,0,0,1,1,1,1]
 
 
 
 knn = KNN(x, y)
-knn.Classificar([0, 0])
-knn.VisualizarGrafico()
+knn.Classificar([4, 4, 4])
+
 
 
 

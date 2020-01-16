@@ -10,10 +10,11 @@ class RegressaoLinear():
         self.classificadorLista = classificador
         self.previsao = np.array(previsao)
         self.previsaoLista = previsao
+        self.verificaSeHouveTreinamento = False
         self.w0 = 0.1
         self.w1 = 0.1
 
-    def VisualizarHipotese(self, x, titulo = "Grafico"):
+    def VisualizarHipotese(self, x, titulo="Grafico"):
         '''Cria um gráfico com a hipotese de w0 e w1 no instante que o método é chamado'''
         x = np.array(x)
         self.hipotese = self.w0 + self.w1*x
@@ -50,6 +51,7 @@ class RegressaoLinear():
         '''------------------------------------------------------'''
 
         '''Cria uma lista com a quantidade de iterações do algoritmo para plotar o gráfico de custo'''
+        self.verificaSeHouveTreinamento = True
         self.eixoX = []
         for i in range(0, epocas):
             self.eixoX.append(i)
@@ -88,14 +90,34 @@ class RegressaoLinear():
             print("Primeiro execute o método de descida do gradiente para depois executar esse método\nFirst run the gradient descent method and then perform this method")
 
 
+    '''Salva os valores de w0 e w1 em um arquivo texto de nome informado pelo usuario'''
+    def SalvarTreinamento(self, NomeArquivo):
+        if self.verificaSeHouveTreinamento:
+            arquivo = open(NomeArquivo, 'w')
+            arquivo.write(f'{self.w0}\n{self.w1}')
+            arquivo.close()
+        else:
+            print('primeiro executo o treinamento do metodo')
+
+    '''inicializa w0 e w1 com os valores contidos nos arquivos textos já salvos'''
+    def CarregarTreinamento(self, NomeArquivo):
+        arquivo = open(NomeArquivo, 'r')
+        teste = arquivo.read()
+        teste = teste.split()
+        teste[0] = float(teste[0])
+        teste[1] = float(teste[1])
+        self.w0 = teste[0]
+        self.w1 = teste[1]
+
 
 '''Formato no qual o dados devem ser passado'''
 x = [15,16,17,18,19,20]
 y = [2, 3, 4, 5, 6, 7]
 
 reg = RegressaoLinear(x, y)
-reg.DescidaGradienteStep(epocas=5000)
-reg.Prever(25)
+reg.CarregarTreinamento('teste.txt')
+reg.Prever(20)
+
 
 
 
