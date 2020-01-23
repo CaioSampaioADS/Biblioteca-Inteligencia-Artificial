@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+from random import *
+from math import sqrt
 
 '''Classe para regressao linear com apenas uma variavel de Classificação'''
 class RegressaoLinear():
@@ -97,7 +98,7 @@ class RegressaoLinear():
             arquivo.write(f'{self.w0}\n{self.w1}')
             arquivo.close()
         else:
-            print('primeiro executo o treinamento do metodo')
+            print('primeiro execute o treinamento do metodo')
 
     '''inicializa w0 e w1 com os valores contidos nos arquivos textos já salvos'''
     def CarregarTreinamento(self, NomeArquivo):
@@ -109,16 +110,83 @@ class RegressaoLinear():
         self.w0 = teste[0]
         self.w1 = teste[1]
 
+class RegressaoLinearMultiplasVariaveis():
+    def __init__(self, classificador, previsao):
+        self.classificador = classificador
+        self.previsao = previsao
+        self.w0 = 0.1
+        self.w = []
+        for i in range(0, len(self.classificador[0])):
+            self.w.append(uniform(-1, 1))
+        self.w = np.array(self.w)
+
+
+    def Prever(self, x):
+        x = np.array(x)
+        y = x @ self.w
+        y += self.w0
+        return y
+
+    def MSE(self, x, classe):
+        x = np.array(x)
+        y = []
+        somatoria = 0
+
+
+        for i in range(0, len(x)):
+            aux = self.w @ x[i]
+            y.append(aux + self.w0)
+
+
+        for i in range(0, len(y)):
+            somatoria += (y[i] - classe[i])**2
+
+        mse = sqrt(somatoria)
+
+        return mse
+
+    def DescidaGradiente(self, alpha = 0.1, epocas = 5000):
+        self.eixox = []
+        self.custo = []
+        for i in range(0, epocas):
+            self.eixox.append(i)
+
+
+        m = float(len(self.classificador[0]))
+        for h in range(0, epocas):
+            self.custo.append(self.MSE(self.classificador, self.previsao))
+            for i in range(0, len(self.classificador)):
+                erro = self.Prever(self.classificador[i]) - self.previsao[i]
+                for j in range(0, len(self.classificador[i])):
+                    self.w[j] = self.w[j] - alpha * (1 / m) * erro * self.classificador[i][j]
+                    self.w0 = self.w0 - alpha * (1 / m) * erro * 1
+
+    def VisualizaGrafico(self):
+        plt.plot(self.eixox, self.custo)
+        plt.show()
 
 '''Formato no qual o dados devem ser passado'''
+
+'''
+Exemplo de como utilizar a regressao linear simples
 x = [15,16,17,18,19,20]
 y = [2, 3, 4, 5, 6, 7]
-
 reg = RegressaoLinear(x, y)
-reg.CarregarTreinamento('teste.txt')
+reg.DescidaGradienteStep()
 reg.Prever(20)
+reg.VisualizarGraficoErro()
+'''
 
 
+'''Exemplo regressao linear multipla (Ainda com os bugs de passar valores como 15, 16, 17)'''
+x = [[1.5, 2], [1.6, 2], [1.6, 3], [1.7, 2], [1.8, 3], [1.9, 4], [2.0, 4], [2.1, 5]]
+y = [1, 1.5, 2, 2, 3, 4, 4.5, 5]
+
+reg = RegressaoLinearMultiplasVariaveis(x, y)
+print(reg.Prever([1.5, 2]))
+reg.DescidaGradiente()
+print(reg.Prever([1.5, 2]))
+reg.VisualizaGrafico()
 
 
 
