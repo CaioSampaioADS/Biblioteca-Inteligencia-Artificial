@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from random import *
 from math import sqrt
+import time
 
 '''Classe para regressao linear com apenas uma variavel de Classificação'''
 class RegressaoLinear():
@@ -117,7 +118,7 @@ class RegressaoLinearMultiplasVariaveis():
         self.w0 = 0.1
         self.w = []
         for i in range(0, len(self.classificador[0])):
-            self.w.append(uniform(-1, 1))
+            self.w.append(uniform(-1,1))
         self.w = np.array(self.w)
 
 
@@ -138,14 +139,20 @@ class RegressaoLinearMultiplasVariaveis():
             y.append(aux + self.w0)
 
 
+        print(f'w {self.w}')
+        print(f'y = {y}')
+        print(f'classe = {classe}')
+
+
         for i in range(0, len(y)):
             somatoria += (y[i] - classe[i])**2
+            #print(somatoria)
 
         mse = sqrt(somatoria)
 
         return mse
 
-    def DescidaGradiente(self, alpha = 0.1, epocas = 5000):
+    def DescidaGradiente(self, alpha = 0.01, epocas = 25000):
         self.eixox = []
         self.custo = []
         for i in range(0, epocas):
@@ -157,6 +164,7 @@ class RegressaoLinearMultiplasVariaveis():
             self.custo.append(self.MSE(self.classificador, self.previsao))
             for i in range(0, len(self.classificador)):
                 erro = self.Prever(self.classificador[i]) - self.previsao[i]
+                print(f'erro = {erro}')
                 for j in range(0, len(self.classificador[i])):
                     self.w[j] = self.w[j] - alpha * (1 / m) * erro * self.classificador[i][j]
                     self.w0 = self.w0 - alpha * (1 / m) * erro * 1
@@ -179,14 +187,18 @@ reg.VisualizarGraficoErro()
 
 
 '''Exemplo regressao linear multipla (Ainda com os bugs de passar valores como 15, 16, 17)'''
-x = [[1.5, 2], [1.6, 2], [1.6, 3], [1.7, 2], [1.8, 3], [1.9, 4], [2.0, 4], [2.1, 5]]
+x = [[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50]]
 y = [1, 1.5, 2, 2, 3, 4, 4.5, 5]
 
 reg = RegressaoLinearMultiplasVariaveis(x, y)
-print(reg.Prever([1.5, 2]))
+print(reg.Prever([15, 20]))
+start = time.time()
 reg.DescidaGradiente()
-print(reg.Prever([1.5, 2]))
+fim = time.time()
+print(f'tempo = {fim-start}')
+print(reg.Prever([15, 20]))
 reg.VisualizaGrafico()
+
 
 
 
