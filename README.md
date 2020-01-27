@@ -1,12 +1,13 @@
-@Biblioteca Inteligência Artificial
-#####Essa é uma Biblioteca construida em pyton para facilitar e abstrair conceitos, fazendo com que as pessoas que queiram implementar algoritmos de Machine Learning não se preocupem tanto com a lógica e matemática, se preocupando principalmente com os resultados do algoritmo
+**Biblioteca Inteligência Artificial**
 
-###Instalação: 
+**Essa é uma Biblioteca construida em pyton para facilitar e abstrair conceitos, fazendo com que as pessoas que queiram implementar algoritmos de Machine Learning não se preocupem tanto com a lógica e matemática, se preocupando principalmente com os resultados do algoritmo**
+
+**Instalação:** 
 com o git já instalado utilize
 
     git clone https://github.com/CaioSampaioADS/Biblioteca-Inteligencia-Artificial.git
 
-###Importação
+**Importação**
 O projeto e dividido da seguinte forma:
 
 todos os métodos estão contidos dentro da pasta principal, mas cada método esta separado dentro de um arquivo .py diferente
@@ -20,9 +21,9 @@ Caso o arquivo .py esteja da pasta da biblioteca utilize from NomeDoMetodo impor
     from regressao import RegressaoLinearMultiplasVariaveis
 
 
-##Métodos implementados
+**Métodos implementados**
 
-##KNN
+**KNN**
 
 Esse é um algoritmos de classificação onde busca pelos dados de treinamento mais proximos do dado de teste
 
@@ -53,7 +54,7 @@ e para x com 2 valores em cada sub listas é possivel criar o gráfico da amostr
 
     knn.VisualizarGrafico()
 
-##Regressão linear Multipla
+**Regressão linear Multipla**
 
 Esse algoritmo busca traçar uma melhor "reta/plano" para um determinado conjunto de dados.
 A forma na quais os dados devem ser passados é igual ao KNN sendo X listas de listas e Y listas
@@ -75,7 +76,7 @@ E para fazer uma previsão:
 os métodos para salvar e carregar treinamento serão implementados em breve
 
 
-##Regressão Linear Simples
+**Regressão Linear Simples**
 
 Esse método é o mesmo que a Regressao Linear Mulplipla a unica diferença é que ele só possui 2 dimensões sendo x para os dados
 que buscamos fazer a previsão e y o valor da previsão:
