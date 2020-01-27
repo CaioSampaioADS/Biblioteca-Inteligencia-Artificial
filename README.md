@@ -1,4 +1,4 @@
-#Biblioteca Inteligência Artificial
+@Biblioteca Inteligência Artificial
 #####Essa é uma Biblioteca construida em pyton para facilitar e abstrair conceitos, fazendo com que as pessoas que queiram implementar algoritmos de Machine Learning não se preocupem tanto com a lógica e matemática, se preocupando principalmente com os resultados do algoritmo
 
 ###Instalação: 
