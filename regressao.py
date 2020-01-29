@@ -137,13 +137,11 @@ class RegressaoLinearMultiplasVariaveis():
         for i in range(0, len(x)):
             aux = self.w @ x[i]
             y.append(aux + self.w0)
-
-
+        '''
         print(f'w {self.w}')
         print(f'y = {y}')
         print(f'classe = {classe}')
-
-
+        '''
         for i in range(0, len(y)):
             somatoria += (y[i] - classe[i])**2
             #print(somatoria)
@@ -152,7 +150,7 @@ class RegressaoLinearMultiplasVariaveis():
 
         return mse
 
-    def DescidaGradiente(self, alpha = 0.01, epocas = 25000):
+    def DescidaGradiente(self, alpha = 0.1, epocas = 25000):
         self.eixox = []
         self.custo = []
         for i in range(0, epocas):
@@ -164,14 +162,35 @@ class RegressaoLinearMultiplasVariaveis():
             self.custo.append(self.MSE(self.classificador, self.previsao))
             for i in range(0, len(self.classificador)):
                 erro = self.Prever(self.classificador[i]) - self.previsao[i]
-                print(f'erro = {erro}')
+                #print(f'erro = {erro}')
                 for j in range(0, len(self.classificador[i])):
-                    self.w[j] = self.w[j] - alpha * (1 / m) * erro * self.classificador[i][j]
+                    self.w[j] = self.w[j] - alpha * (1 / m) * erro * (self.classificador[i][j]/1000)
                     self.w0 = self.w0 - alpha * (1 / m) * erro * 1
 
     def VisualizaGrafico(self):
         plt.plot(self.eixox, self.custo)
         plt.show()
+
+    def SalvarTreinamento(self, NomeArquivo="Ws.txt"):
+        arquivo = open(NomeArquivo, "w")
+        arquivo.write("{:.5f}".format(self.w0))
+        for x in self.w:
+            arquivo.write("\n{:.5f}".format(x))
+
+    def CarregarTreinamento(self, NomeArquivo="Ws.txt"):
+        arquivo = open(NomeArquivo, "r")
+        WNs = arquivo.read()
+        WNs = WNs.split()
+
+        for i in range(0, len(WNs)):
+            WNs[i] = float(WNs[i])
+
+        self.w0 = WNs[0]
+        aux = []
+        for i in range(1, len(WNs)):
+            aux.append(WNs[i])
+
+        self.w = np.array(aux)
 
 '''Formato no qual o dados devem ser passado'''
 
@@ -191,13 +210,8 @@ x = [[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 
 y = [1, 1.5, 2, 2, 3, 4, 4.5, 5]
 
 reg = RegressaoLinearMultiplasVariaveis(x, y)
-print(reg.Prever([15, 20]))
-start = time.time()
-reg.DescidaGradiente()
-fim = time.time()
-print(f'tempo = {fim-start}')
-print(reg.Prever([15, 20]))
-reg.VisualizaGrafico()
+reg.CarregarTreinamento()
+print(reg.Prever([16,30]))
 
 
 
