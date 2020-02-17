@@ -1,8 +1,30 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from random import *
-from math import sqrt
+from math import sqrt,trunc
 import time
+
+class Normalizacao():
+    def GrandezaNormalizacao(self, normalizar):
+        escalaGrandeza = []
+
+        for i in range(0, len(normalizar)):
+            escalaGrandeza.append(len(str(trunc(normalizar[i]))))
+
+        escalaGrandeza = sorted(escalaGrandeza, reverse=True)
+
+        dividir = 1
+
+        for i in range(0, escalaGrandeza[0]):
+            dividir *= 10
+
+
+        print(dividir)
+        for i in range(0, len(normalizar)):
+            normalizar[i] = normalizar[i] / dividir
+
+        return normalizar
+
 
 '''Classe para regressao linear com apenas uma variavel de Classificação'''
 class RegressaoLinear():
@@ -38,12 +60,12 @@ class RegressaoLinear():
         self.y = self.w0 + self.w1 * x
 
         mse = 0
-
         '''Soma todos os erros'''
         for i in range(0, len(self.y)):
             mse += (self.previsao[i] - self.y[i])**2
         '''Calcula a média'''
         mse = mse / len(self.previsao)
+
 
         return mse
 
@@ -78,7 +100,9 @@ class RegressaoLinear():
 
                 '''Atualiza os valores de w0 e w1 baseado nos erros de w0 e w1'''
                 self.w0 = self.w0 - alpha * (1/m) * erro_w0
-                self.w1 = self.w1 - alpha * (1/m) * erro_w1
+                self.w1 = round(self.w1 - alpha * (1/m) * erro_w1,3)
+
+
 
     def Prever(self, x):
         print(self.w0 + self.w1*x)
@@ -110,6 +134,31 @@ class RegressaoLinear():
         teste[1] = float(teste[1])
         self.w0 = teste[0]
         self.w1 = teste[1]
+
+
+
+'''Formato no qual o dados devem ser passado'''
+
+'''
+Exemplo de como utilizar a regressao linear simples'''
+
+
+x = [1324213, 4321423, 332421,42341234,4123421,64123423]
+y = [0, 0, 0, 1, 1, 1]
+
+
+
+
+
+reg1 = RegressaoLinear(x, y)
+reg1.DescidaGradienteStep()
+reg1.VisualizarHipotese(x)
+
+
+
+
+
+
 
 class RegressaoLinearMultiplasVariaveis():
     def __init__(self, classificador, previsao):
@@ -150,7 +199,7 @@ class RegressaoLinearMultiplasVariaveis():
 
         return mse
 
-    def DescidaGradiente(self, alpha = 0.1, epocas = 25000):
+    def DescidaGradiente(self, alpha = 0.1, epocas = 5000):
         self.eixox = []
         self.custo = []
         for i in range(0, epocas):
@@ -192,27 +241,33 @@ class RegressaoLinearMultiplasVariaveis():
 
         self.w = np.array(aux)
 
-'''Formato no qual o dados devem ser passado'''
-
-'''
-Exemplo de como utilizar a regressao linear simples
-x = [15,16,17,18,19,20]
-y = [2, 3, 4, 5, 6, 7]
-reg = RegressaoLinear(x, y)
-reg.DescidaGradienteStep()
-reg.Prever(20)
-reg.VisualizarGraficoErro()
-'''
 
 
-'''Exemplo regressao linear multipla (Ainda com os bugs de passar valores como 15, 16, 17)'''
-x = [[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50]]
-y = [1, 1.5, 2, 2, 3, 4, 4.5, 5]
 
+
+
+
+
+
+
+
+
+
+'''Exemplo regressao linear multipla (Ainda com os bugs de passar valores como 15, 16, 17)
+
+
+
+x = [[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50],[15, 20], [16, 20], [16, 30], [17, 20], [18, 30], [19, 40], [20, 40], [21, 50]]
+
+y = [1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5,1, 1.5, 2, 2, 3, 4, 4.5, 5]
+start = time.time()
 reg = RegressaoLinearMultiplasVariaveis(x, y)
-reg.CarregarTreinamento()
+reg.DescidaGradiente()
 print(reg.Prever([16,30]))
-
+fim = time.time()
+print(fim-start)
+reg.VisualizaGrafico()
+'''
 
 
 

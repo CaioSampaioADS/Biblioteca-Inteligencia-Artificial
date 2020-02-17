@@ -73,7 +73,10 @@ E para fazer uma previsão:
 
     print(reg.Prever([15, 20]))
 
-os métodos para salvar e carregar treinamento serão implementados em breve
+Por final você pode salvar e carregar o treinamento utilizando os métodos
+
+    reg.SalvarTreinamento()
+    reg.CarregarTreinamento()
 
 
 **Regressão Linear Simples**
