@@ -2,29 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from random import *
 from math import sqrt,trunc
+from NormalizacaoDados import Normalizacao
+
 import time
-
-class Normalizacao():
-    def GrandezaNormalizacao(self, normalizar):
-        escalaGrandeza = []
-
-        for i in range(0, len(normalizar)):
-            escalaGrandeza.append(len(str(trunc(normalizar[i]))))
-
-        escalaGrandeza = sorted(escalaGrandeza, reverse=True)
-
-        dividir = 1
-
-        for i in range(0, escalaGrandeza[0]):
-            dividir *= 10
-
-
-        print(dividir)
-        for i in range(0, len(normalizar)):
-            normalizar[i] = normalizar[i] / dividir
-
-        return normalizar
-
 
 '''Classe para regressao linear com apenas uma variavel de Classificação'''
 class RegressaoLinear():
@@ -100,7 +80,7 @@ class RegressaoLinear():
 
                 '''Atualiza os valores de w0 e w1 baseado nos erros de w0 e w1'''
                 self.w0 = self.w0 - alpha * (1/m) * erro_w0
-                self.w1 = round(self.w1 - alpha * (1/m) * erro_w1,3)
+                self.w1 = self.w1 - alpha * (1/m) * erro_w1
 
 
 
@@ -148,7 +128,8 @@ y = [0, 0, 0, 1, 1, 1]
 
 
 
-
+norm = Normalizacao()
+norm.GrandezaNormalizacao(x)
 
 reg1 = RegressaoLinear(x, y)
 reg1.DescidaGradienteStep()
