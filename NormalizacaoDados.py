@@ -15,8 +15,6 @@ class Normalizacao():
         for i in range(0, escalaGrandeza[0]):
             dividir *= 10
 
-
-
         for i in range(0, len(normalizar)):
             normalizar[i] = normalizar[i] / dividir
 
