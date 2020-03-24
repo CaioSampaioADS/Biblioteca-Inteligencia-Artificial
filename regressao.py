@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from random import *
-from math import sqrt,trunc
+from math import sqrt,trunc, log
 from NormalizacaoDados import Normalizacao
 
 import time
@@ -120,7 +120,7 @@ class RegressaoLinear():
 '''Formato no qual o dados devem ser passado'''
 
 '''
-Exemplo de como utilizar a regressao linear simples'''
+Exemplo de como utilizar a regressao linear simples
 
 
 x = [1324213, 4321423, 332421,42341234,4123421,64123423]
@@ -134,7 +134,7 @@ norm.GrandezaNormalizacao(x)
 reg1 = RegressaoLinear(x, y)
 reg1.DescidaGradienteStep()
 reg1.VisualizarHipotese(x)
-
+'''
 
 
 
@@ -194,7 +194,7 @@ class RegressaoLinearMultiplasVariaveis():
                 erro = self.Prever(self.classificador[i]) - self.previsao[i]
                 #print(f'erro = {erro}')
                 for j in range(0, len(self.classificador[i])):
-                    self.w[j] = self.w[j] - alpha * (1 / m) * erro * (self.classificador[i][j]/1000)
+                    self.w[j] = self.w[j] - alpha * (1 / m) * erro * (self.classificador[i][j])
                     self.w0 = self.w0 - alpha * (1 / m) * erro * 1
 
     def VisualizaGrafico(self):
@@ -223,17 +223,6 @@ class RegressaoLinearMultiplasVariaveis():
         self.w = np.array(aux)
 
 
-
-
-
-
-
-
-
-
-
-
-
 '''Exemplo regressao linear multipla (Ainda com os bugs de passar valores como 15, 16, 17)
 
 
@@ -249,6 +238,69 @@ fim = time.time()
 print(fim-start)
 reg.VisualizaGrafico()
 '''
+
+class RegressaoLogistica():
+    def __init__(self, classificador, previsao):
+        self.classificador = np.array(classificador)
+        self.previsao = np.array(previsao)
+        self.w = np.array([round(uniform(0,1), 2) for i in range(2)])
+
+
+    def hipotese(self, x):
+        return self.w[0] + self.w[1]*x
+
+    def sigmoid(self, x):
+        return 1/ (1 + np.exp(-x))
+
+    def visualizarHipotese(self):
+        hipotese = self.sigmoid(self.hipotese(self.classificador))
+
+        plt.scatter(self.classificador, self.previsao)
+        plt.plot(self.classificador, hipotese)
+        plt.show()
+
+    def visualizarGraficoErro(self):
+
+        x = [i for i in range(len(self.GraficoErro))]
+        plt.plot(x, self.GraficoErro)
+        plt.show()
+
+    def binaryCrossEntropy(self, ValorCorreto, ValorPredito):
+        return -(ValorCorreto * log(ValorPredito)) - (1-ValorCorreto) * log(1-ValorPredito)
+
+    def DescidaGradiente(self, alpha=0.6, epocas = 7):
+        m = len(self.previsao)
+        self.error = []
+        self.GraficoErro = []
+        for i in range(epocas):
+            self.error.clear()
+            hipotese = self.sigmoid(self.hipotese(self.classificador))
+
+            for j in range(m):
+
+                print(round(self.sigmoid(self.hipotese(self.classificador[j])),5))
+                self.error.append(self.binaryCrossEntropy(self.previsao[j], self.sigmoid(self.hipotese(self.classificador[j]))))
+
+            somatoria = np.sum(self.error)
+            self.GraficoErro.append(somatoria)
+            self.w = self.w - ((alpha/m)) * somatoria
+
+
+
+        '''
+            for j in range(len(self.classificador)):
+            erro = self.binaryCrossEntropy(self.previsao[j], self.sigmoid(self.hipotese(self.classificador[j])))
+            print(f'erro = {erro}')
+            print(self.w[1])
+            self.w[1] = self.w[1] - alpha * (1 / m) * erro * (self.classificador[j])
+            self.w[0] = self.w[0] - alpha * (1 / m) * erro * 1
+        '''
+
+a = RegressaoLogistica([1,2,3,6,7,8], [0,0,0,1,1,1])
+a.DescidaGradiente()
+a.visualizarGraficoErro()
+
+
 
 
 
