@@ -266,25 +266,17 @@ class RegressaoLogistica():
         plt.show()
 
     def binaryCrossEntropy(self, ValorCorreto, ValorPredito):
-        return -(ValorCorreto * log(ValorPredito)) - (1-ValorCorreto) * log(1-ValorPredito)
+        return -(ValorCorreto * np.log(ValorPredito)) - (1-ValorCorreto) * np.log(1-ValorPredito)
 
-    def DescidaGradiente(self, alpha=0.6, epocas = 7):
+    def DescidaGradiente(self, alpha=0.1, epocas = 4000):
         m = len(self.previsao)
-        self.error = []
         self.GraficoErro = []
         for i in range(epocas):
-            self.error.clear()
-            hipotese = self.sigmoid(self.hipotese(self.classificador))
 
-            for j in range(m):
-
-                print(round(self.sigmoid(self.hipotese(self.classificador[j])),5))
-                self.error.append(self.binaryCrossEntropy(self.previsao[j], self.sigmoid(self.hipotese(self.classificador[j]))))
-
-            somatoria = np.sum(self.error)
-            self.GraficoErro.append(somatoria)
-            self.w = self.w - ((alpha/m)) * somatoria
-
+            somatoria = np.sum((self.sigmoid(self.hipotese(self.classificador)) - self.previsao) *self.classificador)
+            somatoria1 = np.sum(self.sigmoid(self.hipotese(self.classificador)) - self.previsao)
+            self.w[0] = self.w[0] - ((alpha / m)) * somatoria1
+            self.w[1] = self.w[1] - ((alpha/m)) * somatoria
 
 
         '''
@@ -296,9 +288,10 @@ class RegressaoLogistica():
             self.w[0] = self.w[0] - alpha * (1 / m) * erro * 1
         '''
 
-a = RegressaoLogistica([1,2,3,6,7,8], [0,0,0,1,1,1])
+a = RegressaoLogistica([1,2,3,4,5,12,13,14,15,16], [0,0,0,0,0,1,1,1,1,1])
+a.visualizarHipotese()
 a.DescidaGradiente()
-a.visualizarGraficoErro()
+a.visualizarHipotese()
 
 
 
